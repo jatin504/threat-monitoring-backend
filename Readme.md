@@ -1,6 +1,51 @@
 
 ---
 
+# AI-Powered Surveillance & Threat Monitoring Backend
+
+A backend application built using **Django REST Framework** to ingest security events, automatically generate alerts for high-risk activities, and manage them using **role-based access control**.
+
+This project is designed to be **assignment-ready**, **interview-friendly**, and **deployable on free hosting platforms** without shell access.
+
+## Features
+
+- JWT-based authentication
+- Role-based access control (ADMIN, ANALYST)
+- Secure admin bootstrap using environment variables
+- Public signup restricted to analyst users
+- Event ingestion with severity classification
+- Automatic alert creation for HIGH / CRITICAL events
+- Alert status management
+- PostgreSQL support for production
+- SQLite fallback for local development
+- Dockerized deployment
+
+## Project Structure
+
+```
+threat_platform/
+├── core/
+│ ├── models.py
+│ ├── serializers.py
+│ ├── views.py
+│ ├── urls.py
+│ ├── apps.py
+│ └── permissions.py
+│
+├── threat_platform/
+│ ├── settings.py
+│ ├── urls.py
+│ ├── wsgi.py
+│ └── asgi.py
+│
+├── Dockerfile
+├── docker-compose.yml
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+___
+
 ## Authentication & Roles
 
 ### Roles

@@ -1,7 +1,5 @@
-import os
-from django.contrib.auth.models import User
 from django.apps import AppConfig
-from threat_platform.core.models import UserProfile
+import os
 
 
 class CoreConfig(AppConfig):
@@ -9,13 +7,24 @@ class CoreConfig(AppConfig):
     name = "core"
 
     def ready(self):
+        """
+        Bootstrap admin user from environment variables.
+        Runs AFTER all apps are loaded.
+        """
+        from django.contrib.auth import get_user_model
+        from threat_platform.core.models import UserProfile
+
+        User = get_user_model()
+
         username = os.getenv("ADMIN_USERNAME")
         password = os.getenv("ADMIN_PASSWORD")
         email = os.getenv("ADMIN_EMAIL", "")
 
+        # Env vars not set → skip
         if not username or not password:
             return
 
+        # Admin already exists → skip
         if User.objects.filter(username=username).exists():
             return
 

@@ -12,8 +12,7 @@ class CoreConfig(AppConfig):
         Runs AFTER all apps are loaded.
         """
         from django.contrib.auth import get_user_model
-        from threat_platform.core.models import UserProfile
-
+        from core.models import UserProfile
         User = get_user_model()
 
         username = os.getenv("ADMIN_USERNAME")

@@ -1,5 +1,33 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Event, Alert
+from .models import Event, Alert, UserProfile
+
+
+class SignupSerializer(serializers.ModelSerializer):
+    """
+    Public signup API
+    - Creates only ANALYST users
+    - Admin is created via ENV bootstrap (safe)
+    """
+
+    class Meta:
+        model = User
+        fields = ("username", "password", "email")
+        extra_kwargs = {
+            "password": {"write_only": True}
+        }
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data["username"],
+            password=validated_data["password"],
+            email=validated_data.get("email", "")
+        )
+
+        # IMPORTANT: public signup → analyst only
+        UserProfile.objects.create(user=user, role="ANALYST")
+        return user
+
 
 
 class EventSerializer(serializers.ModelSerializer):

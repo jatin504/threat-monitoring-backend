@@ -1,7 +1,12 @@
-from rest_framework import generics, filters
+from rest_framework import generics, filters, permissions
 from .models import Event, Alert
 from .permission import IsAnalystReadOnly, IsAdmin
-from .serializers import EventSerializer, AlertSerializer
+from .serializers import EventSerializer, AlertSerializer, SignupSerializer
+
+
+class SignupView(generics.CreateAPIView):
+    serializer_class = SignupSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 # Event Ingestion
